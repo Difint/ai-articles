@@ -9,10 +9,11 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "@elizaos/adapter-sqlite": "*",
-    "@elizaos/client-auto": "*",
-    "@elizaos/client-direct": "*",
-    "@elizaos/core": "*",
-    "@elizaos/plugin-bootstrap": "*",
-    "@elizaos/plugin-node": "*"
+    "@elizaos/adapter-sqlite": "*", 
+    "@elizaos/client-direct": "*", 
+    "@elizaos/core": "*", 
+    "@elizaos/plugin-bootstrap": "*", 
+    "@elizaos/plugin-node": "*" 
+
+  }
 }
