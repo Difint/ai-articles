@@ -15,6 +15,7 @@
     "@elizaos/plugin-bootstrap": "0.1.8", 
     "@elizaos/plugin-node": "0.1.7",
     "better-sqlite3": "11.6.0",
-    "@tavily/core": "*"
+    "@tavily/core": "*",
+    "readline": "*"
   }
 }

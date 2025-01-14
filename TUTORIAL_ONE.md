@@ -5,7 +5,8 @@ In this article we will create a simple agent from scratch. At it's core agents 
 We gonna use NodeJS and Javascript to for the sake of simplicity.
 We gonna use pnpm, it's basically npm but faster by using liunks to globally stored packages.
 
-## Preinstall
+## Part One: The most minimalistic agent
+### Preinstall
 Commit with what you have is here (TBG commit)
 
 1. Create new folder
@@ -20,15 +21,16 @@ Commit with what you have is here (TBG commit)
     "@elizaos/plugin-bootstrap": "*", // for core actions for agents
     "@elizaos/plugin-node": "*" // for nodejs specific operations, like interacting with the file system
 7. We will need a few additional packages:
-
+    - better-sqlite3 //sqlite database
+    - @tavily/core //required by elize core
 
 7. run "npm install"
 
-## Creating Basic Agent
+### Creating Basic Agent
 
 Let's modify the index.js file to create a basic agent.
 
-### Importing dependencies
+#### Importing dependencies
 
 ```javascript
 //Importing Eliza specific packages
@@ -60,5 +62,13 @@ You should see something like this in the terminal:
 ["✓ User Eliza created successfully."]
 ```
 
-## Creating character file
+## Part Two: Creating a chat interface 
 
+We will use readline to create a chat interface.
+
+1. create chat.js file
+2. add the following code:
+
+```javascript
+
+```
