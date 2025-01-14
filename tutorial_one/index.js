@@ -2,10 +2,6 @@
 import { AgentRuntime } from "@elizaos/core";
 import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
 import { DirectClient } from "@elizaos/client-direct";
-//--------------------------
-//Importing core plugins
-// import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
-// import { createNodePlugin } from "@elizaos/plugin-node"
 
 //--------------------------
 // Importing external packages
@@ -24,7 +20,14 @@ await db.init();
 // //Creating agent runtime
 const agent = new AgentRuntime({
   databaseAdapter: db,
-  agentId: AGENT_ID
+  agentId: AGENT_ID,
+  modelProvider: "groq",
+  token: "",
+  character:{
+    model: "groq",
+    postExamples:[],
+    messageExamples:[]
+  }
 });
 
 await agent.initialize();
