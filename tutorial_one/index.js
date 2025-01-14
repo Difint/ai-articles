@@ -23,16 +23,17 @@ await db.init();
 
 // //Creating agent runtime
 const agent = new AgentRuntime({
-  databaseAdapter: db
+  databaseAdapter: db,
+  agentId: AGENT_ID
 });
 
 await agent.initialize();
 
-//
+//Direct client
 const directClient = new DirectClient();
-directClient.start(SERVER_PORT);
-
 directClient.registerAgent(agent);
+
+directClient.start(SERVER_PORT);
 
 //--------------------------------
 //Creating chat interface
