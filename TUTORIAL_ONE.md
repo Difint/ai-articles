@@ -32,22 +32,33 @@ Let's modify the index.js file to create a basic agent.
 
 ```javascript
 //Importing Eliza specific packages
-import { DirectClient } from "@elizaos/client-direct";
-import {
-  AgentRuntime,
-  elizaLogger,
-  settings,
-  stringToUuid,
-  type Character,
-} from "@elizaos/core";
-import { bootstrapPlugin } from "@elizaos/plugin-bootstrap";
-import { createNodePlugin } from "@elizaos/plugin-node";
+import { AgentRuntime } from "@elizaos/core";
+import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
 ```
 #### Database
 
 We will need a space to store memories of the Agent. We will use sqlite database for the sake of simplicity.
 
+1. create db.sqlite file
 
+```javascript
+const db = new SqliteDatabaseAdapter(new Database("db.sqlite"));
+await db.init();
+```
+
+#### Creating agent runtime
+
+```javascript
+const agent = new AgentRuntime({
+  databaseAdapter: db
+});
+```
+
+You should see something like this in the terminal:
+
+```
+["✓ User Eliza created successfully."]
+```
 
 ## Creating character file
 
