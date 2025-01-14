@@ -72,3 +72,10 @@ We will use readline to create a chat interface.
 ```javascript
 
 ```
+
+## Part Three: Add groq
+
+1. Create Groq account. You'll have pretty a lot free API calls.
+2. Create .env file
+3. Create API key in Groq
+3. add GROQ_API_KEY=your_api_key_here to .env file
