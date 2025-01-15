@@ -1,0 +1,21 @@
+{
+  "name": "eliza_from_scratch",
+  "version": "0.0.1",
+  "description": "Sample ElizaAI agent from scratch",
+  "license": "MIT",
+  "author": "Rod Mamin",
+  "main": "index.js",
+  "scripts": {  
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@elizaos/adapter-sqlite": "0.1.8", 
+    "@elizaos/client-direct": "0.1.7", 
+    "@elizaos/core": "0.1.8", 
+    "@elizaos/plugin-bootstrap": "0.1.8", 
+    "@elizaos/plugin-node": "0.1.7",
+    "better-sqlite3": "11.6.0",
+    "@tavily/core": "*",
+    "readline": "*"
+  }
+}
