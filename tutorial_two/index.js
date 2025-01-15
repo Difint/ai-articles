@@ -11,12 +11,12 @@ const AGENT_ID = "Agent";
 
 // create action
 
-const generateImageAction = {
-  name: "SAY_PONG",
+const pingPongAction = {
+  name: "PING_PONG",
   similes: ["PING", "ECHO"], 
-  description: "When asked to ping, respond with pong",
+  description: "A simple action that responds with 'pong' when user says 'ping' or 'echo'",
   examples: [
-    // Basic ping example
+    // Simple example
     [
       {
         user: "user1",
@@ -27,44 +27,24 @@ const generateImageAction = {
       {
         user: "bot",
         content: {
-          text: "Pong",
-          action: "SAY_PONG",
-          params: {}
-        }
-      }
-    ],
-    // Echo example
-    [
-      {
-        user: "user1", 
-        content: {
-          text: "echo"
-        }
-      },
-      {
-        user: "bot",
-        content: {
-          text: "Pong",
-          action: "SAY_PONG",
-          params: {}
+          text: "Pong!"
         }
       }
     ]
   ],
+  
   async validate(runtime, message) {
-      return true;
+    return true;
   },
 
   async handler(runtime, message, state, options, callback) {
-    console.log("SAY_PONG");
-    callback?.(
-          {
-              text: "Callback pong"
-          },
-          [],
-      );
-
-    return message
+    callback({
+      text: "Ping. Ready for another round?"
+    });
+    // Simple response TBD: not working
+    return {
+      text: "Pong!"
+    };
   }
 };
 // Step 3: Setup database
@@ -79,11 +59,38 @@ const agent = new AgentRuntime({
   token: settings.GROQ_API_KEY,
   character: {
     model: "groq",
-    // Keep it simple for now
-    postExamples: [],
-    messageExamples: []
+    systemPrompt: "You are a helpful assistant that can play ping pong.",
+    messageExamples: [],
+    postExamples: [
+      // Example of a ping-pong interaction
+      {
+        messages: [
+          {
+            user: "user1",
+            content: { text: "ping" }
+          },
+          {
+            user: "bot",
+            content: { text: "Pong!" }
+          }
+        ]
+      },
+      // Example of an echo interaction
+      {
+        messages: [
+          {
+            user: "user1",
+            content: { text: "echo" }
+          },
+          {
+            user: "bot",
+            content: { text: "Pong!" }
+          }
+        ]
+      }
+    ]
   },
-  actions: [generateImageAction]
+  actions: [pingPongAction]
 });
 
 await agent.initialize();
