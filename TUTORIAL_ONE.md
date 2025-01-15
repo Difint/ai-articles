@@ -1,81 +1,135 @@
-# The simpliest agent
+# The Simplest AI Agent
 
-In this article we will create a simple agent from scratch. At it's core agents are just very special programs, and by making it from scratch we want to uncover magic.
+In this tutorial, we'll create a basic AI agent from scratch. While AI agents might seem magical, they're just programs with special capabilities. We'll build one step by step to understand how they work.
 
-We gonna use NodeJS and Javascript to for the sake of simplicity.
-We gonna use pnpm, it's basically npm but faster by using liunks to globally stored packages.
+## Prerequisites
+- Node.js installed on your computer
+- Basic understanding of JavaScript
+- A code editor (like VS Code)
+- pnpm (faster version of NPM)
 
-## Part One: The most minimalistic agent
-### Preinstall
-Commit with what you have is here (TBG commit)
+## Step 1: Project Setup
 
-1. Create new folder
-2. cd to that folder
-3. pnpm init
-4. create index.js 
-5. add "start": "node index.js" to package.json
-6. add Elizad dependencies to "dependencies" section in package.json:
-    "@elizaos/adapter-sqlite": "*", // for sqlite
-    "@elizaos/client-direct": "*", // for direct client via terminal
-    "@elizaos/core": "*", // for core
-    "@elizaos/plugin-bootstrap": "*", // for core actions for agents
-    "@elizaos/plugin-node": "*" // for nodejs specific operations, like interacting with the file system
-7. We will need a few additional packages:
-    - better-sqlite3 //sqlite database
-    - @tavily/core //required by elize core
+1. Create a new folder for your project:
+```bash
+mkdir my-first-agent
+cd my-first-agent
+```
 
-7. run "npm install"
+2. Initialize a new Node.js project:
+```bash
+npm init -y
+```
 
-### Creating Basic Agent
+3. Create two new files:
+```bash
+touch index.js
+touch db.sqlite
+```
 
-Let's modify the index.js file to create a basic agent.
+4. Open package.json and replace its content with:
+```json
+{
+  "name": "eliza_from_scratch",
+  "version": "0.0.1",
+  "description": "Sample ElizaAI agent from scratch",
+  "type": "module",
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": {  
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@elizaos/adapter-sqlite": "0.1.8", 
+    "@elizaos/client-direct": "0.1.7", 
+    "@elizaos/core": "0.1.8", 
+    "@elizaos/plugin-bootstrap": "0.1.8", 
+    "@elizaos/plugin-node": "0.1.7",
+    "better-sqlite3": "11.6.0",
+    "@tavily/core": "*",
+    "readline": "*"
+  }
+}
+```
 
-#### Importing dependencies
+5. Install the dependencies:
+```bash
+pnpm install
+```
 
+## Step 2: Creating the Agent
+
+Open `index.js` and let's build our agent step by step:
+
+1. First, add the necessary imports:
 ```javascript
-//Importing Eliza specific packages
 import { AgentRuntime } from "@elizaos/core";
 import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
+import { DirectClient } from "@elizaos/client-direct";
+import Database from "better-sqlite3";
+import readline from "readline";
 ```
-#### Database
 
-We will need a space to store memories of the Agent. We will use sqlite database for the sake of simplicity.
+2. Set up basic configuration:
+```javascript
+const SERVER_PORT = 3000;
+const AGENT_ID = "Agent";
+```
 
-1. create db.sqlite file
-
+3. Initialize the database:
 ```javascript
 const db = new SqliteDatabaseAdapter(new Database("db.sqlite"));
 await db.init();
 ```
 
-#### Creating agent runtime
-
+4. Create the agent:
 ```javascript
 const agent = new AgentRuntime({
-  databaseAdapter: db
+  databaseAdapter: db,
+  agentId: AGENT_ID,
+  modelProvider: "groq",
+  token: "", // We'll add the token in the next tutorial
+  character: {
+    model: "groq",
+    postExamples: [],
+    messageExamples: []
+  }
+});
+
+await agent.initialize();
+```
+
+5. Set up the communication client:
+```javascript
+const directClient = new DirectClient();
+directClient.registerAgent(agent);
+directClient.start(SERVER_PORT);
+```
+
+6. Create the chat interface:
+```javascript
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
 });
 ```
 
-You should see something like this in the terminal:
+The complete code is available in the index.js file. To run your agent:
 
-```
-["✓ User Eliza created successfully."]
-```
-
-## Part Two: Creating a chat interface 
-
-We will use readline to create a chat interface.
-
-1. create chat.js file
-2. add the following code:
-
-```javascript
-
+```bash
+npm start
 ```
 
-## Part Three: Add groq
+Dont forget to insert your API key that you could get at Groq.com for free
+You should see a prompt where you can chat with your agent. Type 'exit' to quit.
 
-1. Create Groq account. You'll have pretty a lot free API calls.
-2. Create .env file
-3. Create API key in Groq
-3. add GROQ_API_KEY=your_api_key_here to .env file
+## What's Happening?
+
+Let's break down what we've built:
+
+1. **Database Setup**: We use SQLite to store the agent's memory
+2. **Agent Runtime**: The core of our AI agent, handling all the basic operations
+3. **Direct Client**: Manages communication between you and the agent, starting web server for communications
+4. **Chat Interface**: A simple command-line interface to talk with your agent
+
+
