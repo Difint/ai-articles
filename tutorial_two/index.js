@@ -1,5 +1,5 @@
 // Step 1: Import required packages
-import { AgentRuntime } from "@elizaos/core";
+import { AgentRuntime, settings } from "@elizaos/core"; //use settings to load from .env
 import { SqliteDatabaseAdapter } from "@elizaos/adapter-sqlite";
 import { DirectClient } from "@elizaos/client-direct";
 import Database from "better-sqlite3";
@@ -9,6 +9,64 @@ import readline from "readline";
 const SERVER_PORT = 3000;
 const AGENT_ID = "Agent";
 
+// create action
+
+const generateImageAction = {
+  name: "SAY_PONG",
+  similes: ["PING", "ECHO"], 
+  description: "When asked to ping, respond with pong",
+  examples: [
+    // Basic ping example
+    [
+      {
+        user: "user1",
+        content: {
+          text: "ping"
+        }
+      },
+      {
+        user: "bot",
+        content: {
+          text: "Pong",
+          action: "SAY_PONG",
+          params: {}
+        }
+      }
+    ],
+    // Echo example
+    [
+      {
+        user: "user1", 
+        content: {
+          text: "echo"
+        }
+      },
+      {
+        user: "bot",
+        content: {
+          text: "Pong",
+          action: "SAY_PONG",
+          params: {}
+        }
+      }
+    ]
+  ],
+  async validate(runtime, message) {
+      return true;
+  },
+
+  async handler(runtime, message, state, options, callback) {
+    console.log("SAY_PONG");
+    callback?.(
+          {
+              text: "Callback pong"
+          },
+          [],
+      );
+
+    return message
+  }
+};
 // Step 3: Setup database
 const db = new SqliteDatabaseAdapter(new Database("db.sqlite"));
 await db.init();
@@ -18,13 +76,14 @@ const agent = new AgentRuntime({
   databaseAdapter: db,
   agentId: AGENT_ID,
   modelProvider: "groq",
-  token: "", // API acceess token to grog
+  token: settings.GROQ_API_KEY,
   character: {
     model: "groq",
     // Keep it simple for now
     postExamples: [],
     messageExamples: []
-  }
+  },
+  actions: [generateImageAction]
 });
 
 await agent.initialize();
