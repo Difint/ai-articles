@@ -1,5 +1,6 @@
 # Simple RAG Example
 
+Loading Markdown Documents into ElizaOS Agent memory and being able to ask questions about them.
 This is a simple example of using RAG (Retrieval-Augmented Generation) with ElizaOS to create a question-answering system based on markdown documents.
 
 ## Prerequisites
@@ -29,14 +30,14 @@ GROQ_API_KEY=your-api-key-here
 
 ## Usage
 
-1. Run the example with default docs directory:
+1. Run the example with current directory:
 ```bash
-pnpm tsx simple_rag.ts
+pnpm start 
 ```
 
 2. Or specify a custom docs directory:
 ```bash
-pnpm tsx simple_rag.ts /path/to/your/docs
+pnpm start /path/to/your/docs
 ```
 
 The script will:
@@ -63,6 +64,5 @@ Type 'exit' to quit the program.
    - The found content is used as context for the LLM to generate an answer
 
 3. Components:
-   - `simple_rag.ts`: Main script containing all the logic
+   - `index.ts`: Main script containing all the logic
    - `db.sqlite`: SQLite database storing the documents and embeddings
-   - `docs/`: Directory containing your markdown files 
