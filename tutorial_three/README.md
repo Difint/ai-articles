@@ -11,6 +11,12 @@ This is a simple example of using RAG (Retrieval-Augmented Generation) with Eliz
 
 ## Setup
 
+0. download repo:
+```bash
+git clone https://github.com/Difint/ai-articles.git
+cd tutorial_three
+```
+
 1. Install dependencies:
 ```bash
 pnpm install
