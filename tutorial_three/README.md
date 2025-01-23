@@ -5,7 +5,7 @@ This is a simple example of using RAG (Retrieval-Augmented Generation) with Eliz
 
 ## Prerequisites
 
-- Node.js 16+
+- Node.js 22+
 - pnpm
 - A GROQ API key
 
